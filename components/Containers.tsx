@@ -1,6 +1,6 @@
 import { styles } from '@/styles/commonStyle';
 import React from 'react';
-import { View, StyleSheet, useWindowDimensions, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, StyleSheet, useWindowDimensions, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 
 interface PasswordContainerProps {
     title: string;
@@ -57,6 +57,22 @@ export const PasswordInfoContainer: React.FC<InfoElementProps> = ({
 
     );
 };
+
+export const ConfirmDialog = (p0: string, p1: string, p2: () => void, p3: () => void, { title, message, onConfirm, onCancel }: { title: string; message: string; onConfirm: () => void; onCancel: () => void; }) => {
+    return (
+        Alert.alert(title, message, [
+            {
+                text: 'Cancel',
+                style: 'cancel',
+                onPress: onCancel,
+            },
+            {
+                text: 'Confirm',
+                onPress: onConfirm,
+            },
+        ])
+    );
+}
 
 const Localstyles = StyleSheet.create({
     blankContainer: {

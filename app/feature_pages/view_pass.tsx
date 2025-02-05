@@ -1,24 +1,11 @@
-import { PasswordInfoContainer } from '@/components/Containers';
+import { ConfirmDialog, PasswordInfoContainer } from '@/components/Containers';
 import { styles } from '@/styles/commonStyle';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import { Alert, TouchableOpacity, Text, TextInput, View, ScrollView, StyleSheet } from 'react-native';
-import { Swipeable } from 'react-native-gesture-handler';
 
 export default function view_pass() {
-  const handleSwipe = () => {
-    Alert.alert('Delete', 'Are you sure you want to delete this item?', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'Delete',
-        onPress: () => Alert.alert('Deleted', 'Item has been deleted'),
-      },
-    ]);
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -26,14 +13,48 @@ export default function view_pass() {
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="close" size={28} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Save", "Password saved!")} style={Localstyles.action_button1}>
+        <TouchableOpacity
+          onPress={() =>
+            ConfirmDialog(
+              "Delete",
+              "Are you sure you want to save this password?",
+              () => console.log("Confirmed Save"),
+              () => console.log("Canceled Save"),
+              { title: "Save Password", message: "Save this password?", onConfirm: () => console.log("Saved"), onCancel: () => console.log("Canceled") }
+            )
+          }
+          style={Localstyles.action_button1}
+        >
           <Ionicons name="save" size={28} color="green" />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => Alert.alert("Archive", "Archived Successful!")} style={Localstyles.action_button2}>
+
+        <TouchableOpacity
+          onPress={() =>
+            ConfirmDialog(
+              "Delete",
+              "Are you sure you want to archive this password?",
+              () => console.log("Confirmed Archive"),
+              () => console.log("Canceled Archive"),
+              { title: "Archive Confirmation", message: "Archive this password?", onConfirm: () => console.log("Archived"), onCancel: () => console.log("Canceled") }
+            )
+          }
+          style={Localstyles.action_button2}
+        >
           <Ionicons name="archive" size={28} color="black" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => Alert.alert("Archive", "Archived Successful!")} style={Localstyles.action_button3}>
+        <TouchableOpacity
+          onPress={() =>
+            ConfirmDialog(
+              "Delete",
+              "Are you sure you want to delete this password?",
+              () => console.log("Confirmed Delete"),
+              () => console.log("Canceled Delete"),
+              { title: "Delete Confirmation", message: "Delete this password?", onConfirm: () => console.log("Deleted"), onCancel: () => console.log("Canceled") }
+            )
+          }
+          style={Localstyles.action_button3}
+        >
           <Ionicons name="trash" size={28} color="red" />
         </TouchableOpacity>
       </View>
@@ -44,13 +65,6 @@ export default function view_pass() {
         <PasswordInfoContainer title="Description" info="Testing"/>
         <PasswordInfoContainer title="Website" info="https://facebook.com"/>
       </ScrollView>
-
-      {/* Swipeable Container
-      <Swipeable onSwipeableOpen={handleSwipe}>
-        <View style={Localstyles.swiperContainer}>
-          <Text style={styles.subTitle}>Swipe to delete</Text>
-        </View>
-      </Swipeable> */}
     </View>
   );
 }
@@ -71,18 +85,4 @@ const Localstyles = StyleSheet.create({
     top: 15,
     right: 105,
   },
-  // swiperContainer: {
-  //   padding: 15,
-  //   marginHorizontal: 20,
-  //   marginBottom: 20,
-  //   height: 60,
-  //   borderRadius: 10,
-  //   backgroundColor: '#f1f1f1',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   shadowColor: '#000',
-  //   shadowOffset: { width: 0, height: 2 },
-  //   shadowOpacity: 0.3,
-  //   shadowRadius: 3,
-  // },
 });
